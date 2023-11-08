@@ -8,3 +8,10 @@ We expect to use these two programs (producer and consumer) like this:
 $ g++ producer.cpp -pthread -lrt -o producer
 $ g++ consumer.cpp -pthread -lrt -o consumer
 $ ./producer & ./consumer
+
+
+## Following the criteria
+The files used in this project are producer.cpp, consumer.cpp, shm.hpp, shm.cpp, destroyshm.cpp (used seldomly for cleanup), and a Makefile. The command for the make is # make PCP #. This will compile the files using g++ and run them. The main focus for this project was understanding shared memory, and how to get it between two processes.
+
+## The Challenges
+
