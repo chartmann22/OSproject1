@@ -5,12 +5,8 @@
 
 
 //producer shared
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/shm.h>
-
-#include "shm.hpp"
+#include "shared.hpp"
+#include "shm.cpp"
 
 #define BLOCK_SIZE 4096
 #define NUM_ITERATIONS 10
@@ -35,7 +31,7 @@ int main(int argc, char *argv[]){
     }
 
     // grab the shared memory block
-    char *block = attach_memory(FILENAME, BLOCK_SIZE);
+    char *block = attach_memory(filename, BLOCK_SIZE);
     if(block == NULL) {
         printf("ERROR: couldn't get block\n");
         return -1;
@@ -43,8 +39,12 @@ int main(int argc, char *argv[]){
 
     for (int i = 0; i < NUM_ITERATIONS; i++) {
         sem_wait(sem_cons); //wait for signal from consumer
+        // pthread_mutex_lock(&mutexBuffer);
+
         printf("Producing: \"%s\"\n", argv[1]);
         strncpy(block, argv[1], BLOCK_SIZE);
+        
+        // pthread_mutex_unlock(&mutexBuffer);
         sem_post(sem_prod); //signal that something has been produced
     }
 
@@ -56,29 +56,3 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
-/* 
-#include "shm.hpp"
-
-// Producer function
-void* producer(void* args) {
-    while (1) {
-        // Produce an item
-        int x = rand() % 100;
-        sleep(1);
-
-        // Wait for an empty slot
-        sem_wait(&empty);
-        pthread_mutex_lock(&mutexBuffer);
-
-        // Put the item on the buffer
-        buffer[count] = x;
-        count++;
-
-        // out 
-        std::cout << "Producer produced item: " << x << std::endl;
-
-        pthread_mutex_unlock(&mutexBuffer);
-        sem_post(&full);
-    }
-}
-*/

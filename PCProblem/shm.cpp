@@ -4,13 +4,10 @@
 // 7 November 2023
 
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 #include <sys/types.h>
 #include <sys/ipc.h>
-#include <sys/shm.h>
-#include "shm.hpp"
+#include "shared.hpp"
 
 #define IPC_RESULT_ERROR (-1)
 
@@ -34,14 +31,14 @@ char * attach_memory(char *filename, int size) {
     char *result;
 
     if(shared_bid == IPC_RESULT_ERROR) {
-        return NULL;
+        return 0;
     }
 
     // map the shared block into this process's memory
     // and give a pointer to it
     result = shmat(shared_bid, NULL, 0);
     if (result == (char *)IPC_RESULT_ERROR) {
-        return NULL;
+        return 0;
     }
 
     return result;

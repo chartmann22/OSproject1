@@ -3,12 +3,9 @@
 // Professor Guan
 // 7 November 2023
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#include "shm.hpp"
-
+#include "shared.hpp"
+//
 int main(int argc, char *argv[]) {
     if (argc != 1) {
         printf("usage - %s (no args)", argv[0]);

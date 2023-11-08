@@ -9,7 +9,7 @@ msg:
 ###############################################################
 # Compile PCP
 #
-PCP: shm.hpp producer.cpp consumer.cpp shm.cpp
+PCP: shared.hpp producer.cpp consumer.cpp shm.cpp
 	$ g++ producer.cpp -pthread -lrt -o producer
 	$ g++ consumer.cpp -pthread -lrt -o consumer
 	$ ./producer & ./consumer

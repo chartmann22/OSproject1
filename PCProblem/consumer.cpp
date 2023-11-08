@@ -4,14 +4,11 @@
 // 7 November 2023
 
 
-
+//
 //consumer shared
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/shm.h>
 
-#include "shm.hpp"
+#include "shared.hpp"
+#include "shm.cpp"
 
 int main(int argc, char *argv[0]){
     if (argc != 1) {
@@ -35,7 +32,7 @@ int main(int argc, char *argv[0]){
     }
 
     // grab the shared memory block
-    char *block = attach_memory(FILENAME, BLOCK_SIZE);
+    char *block = attach_memory(filename, BLOCK_SIZE);
     if(block == NULL) {
         printf("ERROR: couldn't get block\n");
         return -1;
@@ -43,12 +40,15 @@ int main(int argc, char *argv[0]){
 
     while (true) {
         sem_wait(sem_prod);
+        // pthread_mutex_lock(&mutexBuffer);
+
         if (strlen(block) > 0) {
             printf("Consuming: \"%s\"\n", block);
             bool done = (strcmp(block, "quit")==0);
             block[0] = 0;
             if (done) { break; }
         }
+        // pthread_mutex_unlock(&mutexBuffer);
         sem_post(sem_cons);
     }
 
@@ -64,39 +64,12 @@ int main(int argc, char *argv[0]){
 
 /*
 
-#include "shm.hpp"
-
-// Consumer function
-void* consumer(void* args) {
-    while (1) {
-        int y;
-
-        // Wait for a filled slot
-        sem_wait(&full);
-        pthread_mutex_lock(&mutexBuffer);
-
-        // Consume an item from the table
-        y = buffer[count - 1];
-        count--;
-        pthread_mutex_unlock(&mutexBuffer);
-        sem_post(&empty);
-
-        // Out
-        std::cout << "Consumer consumed item: " << y << std::endl;
-        sleep(1);
-    }
-}
-
 int main(int argc, char* argv[]) {
-    srand(time(NULL));
     pthread_t th[THREAD_NUM];
 
     // Initialize pthread
     pthread_mutex_init(&mutexBuffer, NULL);
 
-    // Initialize semaphores
-    sem_init(&empty, 0, 10);
-    sem_init(&full, 0, 0);
     int i;
 
     // Create producer and consumer threads
@@ -118,9 +91,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Clean up semaphores
-    sem_destroy(&empty);
-    sem_destroy(&full);
     pthread_mutex_destroy(&mutexBuffer);
     return 0;
 }
