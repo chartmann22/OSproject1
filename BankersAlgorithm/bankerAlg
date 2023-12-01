@@ -1,0 +1,33 @@
+// Caitlyn Hartmann
+// OS Project 2: Banker's Algorithm
+// Dr. Guan
+// 1 December 2023
+
+#include <iostream>
+#include <stdlib.h>
+
+// total number of processes
+#define n 5
+// total number of resources
+#define m 3
+
+int main() {
+	// P0, P1, P2, P3, P4 are the Process names here
+
+	int allocation[n][m] = {	{ 0, 1, 0 },			// P0 // Allocation Matrix
+								{ 2, 0, 0 },			// P1
+								{ 3, 0, 2 },			// P2
+								{ 2, 1, 1 },			// P3
+								{ 0, 0, 2 } };			// P4
+
+	int max[n][m] =			{	{ 7, 5, 3 },			// P0 // MAX Matrix
+								{ 3, 2, 2 },			// P1
+								{ 9, 0, 2 },			// P2
+								{ 2, 2, 2 },			// P3
+								{ 4, 3, 3 } };			// P4
+
+	int available[m] = { 3, 3, 2 }; // Available Resources
+
+	
+	return (0);
+}
