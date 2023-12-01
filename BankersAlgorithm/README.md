@@ -3,6 +3,7 @@ Considering a system with five processes P0 through P4 and three resources of ty
 <p align="center">
   <img src="Picture1.png" title="table">
 </p>
+![table](Picture1.png)
 
- 
+
 Implement the Banker’s algorithm to answer the following question： Is the system in a safe state? If Yes, then what is the safe sequence?
