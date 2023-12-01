@@ -4,13 +4,8 @@
 // 1 December 2023
 
 #include <iostream>
-
 #include <stdlib.h> 
 #include <stdio.h>
-
-#include <stdbool.h>
-
-
 
 // total number of processes
 #define n 5
