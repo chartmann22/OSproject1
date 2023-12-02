@@ -31,6 +31,7 @@ int main() {
 
 	// available resources
 	int work[m] = { 3, 3, 2 };
+	
 	int z[n], final[n], loc = 0;
 
 	// initialize vectors of size n
